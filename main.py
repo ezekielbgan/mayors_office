@@ -180,16 +180,15 @@ last_event = current_event
 
 # MAIN GAME LOOP
 
-old_population = population
-old_budget = budget
-old_approval = approval
-old_infrastructure = infrastructure
-
 while True:
     year += 1
 
     print("YEAR", year)
     print()
+
+    if check_game_over():
+        break
+
     print("Happy New Year, Mayor", name + "! The city is still standing, and you return to your office to review the annual municipal summary.")
     print()
     show_stats(True)
@@ -239,8 +238,5 @@ while True:
     print("You've made your decision. Now, it's time to wait and see how the city responds.")
     print()
     print()
-
-    if check_game_over():
-        break
 
     last_event = current_event
