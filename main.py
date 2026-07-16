@@ -3,14 +3,24 @@
 import random
 from events import events
 
+# CONFIGURATION
 
-# BASE STATISTICS
+BASE_STAT = 50
+MAX_STAT = 100
+MIN_STAT = 0
+
+HEADER_WIDTH = 40
+
+
+# BASE VARIABLES
 
 year = 0
-population = 50 
-budget = 50
-approval = 50
-infrastructure = 50
+last_event = None
+
+population = BASE_STAT 
+budget = BASE_STAT
+approval = BASE_STAT
+infrastructure = BASE_STAT
 
 
 # FUNCTIONS
@@ -77,6 +87,7 @@ def check_game_over():
 
 
 # GAME INTRODUCTION
+
 print("MAYOR'S OFFICE")
 print()
 print("Congratulations! The citizens of your city have elected you as their new mayor.")
@@ -119,80 +130,22 @@ print()
 print()
 
 
-# YEAR 1 SETUP
-
-last_event = None
-year += 1
-
-print("YEAR", year)
-print()
-print("Your secretary enters your office with an urgent update and directs your attention to the latest news coverage.")
-print()
-
-current_event = random.choice(events)
-
-while current_event == last_event:
-    current_event = random.choice(events)
-
-print("BREAKING NEWS:", current_event["event_description"])
-print()
-print("Your secretary schedules an emergency meeting with your advisors and department heads.")
-print()
-print("After careful deliberation, your administration has narrowed the possible responses down to three options. The final decision, however, belongs to you, Mayor", name + ".")
-print()
-print("1.", current_event["choices"][0]["choice_description"])
-print("2.", current_event["choices"][1]["choice_description"])
-print("3.", current_event["choices"][2]["choice_description"])
-print()
-
-while True:
-    choice = input("Enter the number of your choice: ")
-
-    if choice in ["1", "2", "3"]:
-        break
-
-    print("Please enter 1, 2, or 3.")
-
-old_population = population
-old_budget = budget
-old_approval = approval
-old_infrastructure = infrastructure
-
-selected_choice = current_event["choices"][int(choice) - 1]
-
-population += selected_choice["population_change"]
-budget += selected_choice["budget_change"]
-approval += selected_choice["approval_change"]
-infrastructure += selected_choice["infrastructure_change"]
-
-limit_stats()
-
-print()
-print("You've made your decision. Now, it's time to wait and see how the city responds.")
-print()
-print()
-
-if check_game_over():
-    quit()
-
-last_event = current_event
-
-
 # MAIN GAME LOOP
 
 while True:
     year += 1
-
     print("YEAR", year)
     print()
 
     if check_game_over():
         break
 
-    print("Happy New Year, Mayor", name + "! The city is still standing, and you return to your office to review the annual municipal summary.")
-    print()
-    show_stats(True)
-    print()
+    if year > 1:
+        print("Happy New Year, Mayor", name + "! The city is still standing, and you return to your office to review the annual municipal summary.")
+        print()
+        show_stats(True)
+        print()
+
     print("Your secretary enters your office with an urgent update and directs your attention to the latest news coverage.")
     print()
 

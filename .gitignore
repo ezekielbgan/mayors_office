@@ -219,3 +219,6 @@ __marimo__/
 
 # macOS system files
 .DS_Store
+
+# Development files
+experimental.py

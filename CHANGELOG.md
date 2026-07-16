@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Refactored main game loop to remove duplicate Year 1 logic
+- Combined Year 1 setup with the main yearly cycle
+- Added configuration section
+- Replaced hardcoded starting values with configuration constants
+
 ## v0.1.0 - Initial Release (2026-07-15)
 
 ### Added
