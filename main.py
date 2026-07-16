@@ -1,19 +1,16 @@
 # IMPORTS
-
 import random
 from events import events
 
-# CONFIGURATION
 
+# CONFIGURATION
 BASE_STAT = 50
 MAX_STAT = 100
 MIN_STAT = 0
-
 HEADER_WIDTH = 40
-
+BANNER_WIDTH = 40
 
 # BASE VARIABLES
-
 year = 0
 last_event = None
 
@@ -24,7 +21,6 @@ infrastructure = BASE_STAT
 
 
 # FUNCTIONS
-
 def show_stats(show_changes=False):
     if show_changes:
         population_change = population - old_population
@@ -37,58 +33,59 @@ def show_stats(show_changes=False):
                 return "+" + str(change)
             else:
                 return str(change)
-
-        print("Population:", str(population) + "/100 (" + format_change(population_change) + ")")
-        print("Budget:", str(budget) + "/100 (" + format_change(budget_change) + ")")
-        print("Approval:", str(approval) + "/100 (" + format_change(approval_change) + ")")
-        print("Infrastructure:", str(infrastructure) + "/100 (" + format_change(infrastructure_change) + ")")
+            
+        print("Population:", str(population) + "/" + str(MAX_STAT) + " (" + format_change(population_change) + ")")
+        print("Budget:", str(budget) + "/" + str(MAX_STAT) + " (" + format_change(budget_change) + ")")
+        print("Approval:", str(approval) + "/" + str(MAX_STAT) + " (" + format_change(approval_change) + ")")
+        print("Infrastructure:", str(infrastructure) + "/" + str(MAX_STAT) + " (" + format_change(infrastructure_change) + ")")
     else:
-        print("Population:", str(population) + "/100")
-        print("Budget:", str(budget) + "/100")
-        print("Approval:", str(approval) + "/100")
-        print("Infrastructure:", str(infrastructure) + "/100")
-
+        print("Population:", str(population) + "/" + str(MAX_STAT))
+        print("Budget:", str(budget) + "/" + str(MAX_STAT))
+        print("Approval:", str(approval) + "/" + str(MAX_STAT))
+        print("Infrastructure:", str(infrastructure) + "/" + str(MAX_STAT))
 
 def limit_stats():
     global population, budget, approval, infrastructure
-
-    population = max(0, min(100, population))
-    budget = max(0, min(100, budget))
-    approval = max(0, min(100, approval))
-    infrastructure = max(0, min(100, infrastructure))
-
+    population = max(MIN_STAT, min(MAX_STAT, population))
+    budget = max(MIN_STAT, min(MAX_STAT, budget))
+    approval = max(MIN_STAT, min(MAX_STAT, approval))
+    infrastructure = max(MIN_STAT, min(MAX_STAT, infrastructure))
 
 def check_game_over():
-    if population == 0:
+    if population == MIN_STAT:
         print("Your population has dropped to zero. Typically, your secretary would arrive to let you know, but they are nowhere to be found. You are the sole mayor (and resident) of a ghost town.")
         print()
-        print("GAME OVER")
+        show_banner("GAME OVER")
         return True
-
-    if budget == 0:
+    if budget == MIN_STAT:
         print("Your city's funds have been depleted. Your secretary presents you with the latest financial report and informs you that you no longer need to worry about balancing the budget, because there is nothing left to balance.")
         print()
-        print("GAME OVER")
+        show_banner("GAME OVER")
         return True
-
-    if approval == 0:
+    if approval == MIN_STAT:
         print("Your approval rating has reached zero. For the first time during your administration, your secretary has no encouraging words to offer.")
         print()
-        print("GAME OVER")
+        show_banner("GAME OVER")
         return True
-
-    if infrastructure == 0:
+    if infrastructure == MIN_STAT:
         print("Your infrastructure score has reached zero. Your secretary attempts to deliver the infrastructure report but is unable to find a functioning road to City Hall.")
         print()
-        print("GAME OVER")
+        show_banner("GAME OVER")
         return True
-
     return False
+
+def show_banner(title):
+    print("=" * BANNER_WIDTH)
+    print(title.center(BANNER_WIDTH))
+    print("=" * BANNER_WIDTH)
+
+def show_header(title):
+    print((" " + title + " ").center(HEADER_WIDTH, "-"))
+
 
 
 # GAME INTRODUCTION
-
-print("MAYOR'S OFFICE")
+show_banner("MAYOR'S OFFICE")
 print()
 print("Congratulations! The citizens of your city have elected you as their new mayor.")
 print()
@@ -104,15 +101,13 @@ print()
 
 
 # YEAR 0 SETUP
-
-print("YEAR", year)
+show_header("YEAR " + str(year))
 print()
 print("Your secretary presents you with your first ever city report. Would you like to read it?")
 print()
 print("1. Yes")
 print("2. No")
 print()
-
 if input("Enter the number of your choice: ") == "1":
     print()
     show_stats()
@@ -121,7 +116,6 @@ else:
     print("Just kidding! You don't have a choice. You're a mayor now, so reading reports is a part of your job description.")
     print()
     show_stats()
-
 print()
 print("Your term begins now.")
 print()
@@ -131,10 +125,9 @@ print()
 
 
 # MAIN GAME LOOP
-
 while True:
     year += 1
-    print("YEAR", year)
+    show_header("YEAR " + str(year))
     print()
 
     if check_game_over():
@@ -145,12 +138,10 @@ while True:
         print()
         show_stats(True)
         print()
-
     print("Your secretary enters your office with an urgent update and directs your attention to the latest news coverage.")
     print()
 
     current_event = random.choice(events)
-
     while current_event == last_event:
         current_event = random.choice(events)
 
@@ -167,10 +158,8 @@ while True:
 
     while True:
         choice = input("Enter the number of your choice: ")
-
         if choice in ["1", "2", "3"]:
             break
-
         print("Please enter 1, 2, or 3.")
 
     old_population = population
@@ -179,17 +168,14 @@ while True:
     old_infrastructure = infrastructure
 
     selected_choice = current_event["choices"][int(choice) - 1]
-
     population += selected_choice["population_change"]
     budget += selected_choice["budget_change"]
     approval += selected_choice["approval_change"]
     infrastructure += selected_choice["infrastructure_change"]
 
     limit_stats()
-
     print()
     print("You've made your decision. Now, it's time to wait and see how the city responds.")
     print()
     print()
-
     last_event = current_event
