@@ -7,8 +7,9 @@ from events import events
 BASE_STAT = 50
 MAX_STAT = 100
 MIN_STAT = 0
-HEADER_WIDTH = 40
 BANNER_WIDTH = 40
+HEADER_WIDTH = 40
+
 
 # BASE VARIABLES
 year = 0
@@ -22,6 +23,9 @@ infrastructure = BASE_STAT
 
 # FUNCTIONS
 def show_stats(show_changes=False):
+    print("-" * 40)
+    print("ANNUAL MUNICIPAL REPORT".center(BANNER_WIDTH))
+    print()
     if show_changes:
         population_change = population - old_population
         budget_change = budget - old_budget
@@ -34,15 +38,21 @@ def show_stats(show_changes=False):
             else:
                 return str(change)
             
-        print("Population:", str(population) + "/" + str(MAX_STAT) + " (" + format_change(population_change) + ")")
-        print("Budget:", str(budget) + "/" + str(MAX_STAT) + " (" + format_change(budget_change) + ")")
-        print("Approval:", str(approval) + "/" + str(MAX_STAT) + " (" + format_change(approval_change) + ")")
-        print("Infrastructure:", str(infrastructure) + "/" + str(MAX_STAT) + " (" + format_change(infrastructure_change) + ")")
+        value = f"{population}/{MAX_STAT} ({format_change(population_change)})"
+        print(f"{'Population':<15}{value:>25}")
+        value = f"{budget}/{MAX_STAT} ({format_change(budget_change)})"
+        print(f"{'Budget':<15}{value:>25}")
+        value = f"{approval}/{MAX_STAT} ({format_change(approval_change)})"
+        print(f"{'Approval':<15}{value:>25}")
+        value = f"{infrastructure}/{MAX_STAT} ({format_change(infrastructure_change)})"
+        print(f"{'Infrastructure':<15}{value:>25}")
+        print("-" * HEADER_WIDTH)
     else:
-        print("Population:", str(population) + "/" + str(MAX_STAT))
-        print("Budget:", str(budget) + "/" + str(MAX_STAT))
-        print("Approval:", str(approval) + "/" + str(MAX_STAT))
-        print("Infrastructure:", str(infrastructure) + "/" + str(MAX_STAT))
+        print(f"{'Population':<34}{population}/{MAX_STAT}")
+        print(f"{'Budget':<34}{budget}/{MAX_STAT}")
+        print(f"{'Approval':<34}{approval}/{MAX_STAT}")
+        print(f"{'Infrastructure':<34}{infrastructure}/{MAX_STAT}")
+        print("-" * HEADER_WIDTH)
 
 def limit_stats():
     global population, budget, approval, infrastructure
@@ -83,19 +93,27 @@ def show_header(title):
     print((" " + title + " ").center(HEADER_WIDTH, "-"))
 
 
-
 # GAME INTRODUCTION
 show_banner("MAYOR'S OFFICE")
 print()
-print("Congratulations! The citizens of your city have elected you as their new mayor.")
+print("Welcome to City Hall.")
 print()
-print("Before we begin, what should we call you?")
+print("Today marks the beginning of a new administration.")
+print()
+print("Before your first day can begin...")
+print()
+print("What should we call you?")
 print()
 name = input("Enter your name: ")
 print()
-print("Mayor", name + ", huh? Welcome to City Hall. Your mission is simple:")
 print()
-print("Guide your city through challenges, balance the needs of your citizens, and help your city thrive for as long as possible.")
+print("Welcome, Mayor " + name + ".")
+print()
+print("Your oath of office has been administered, your desk has been cleared, and your first briefing is ready.")
+print()
+print("The decisions you make will shape the future of your city.")
+print()
+print("Good luck, Mayor.")
 print()
 print()
 
@@ -103,15 +121,19 @@ print()
 # YEAR 0 SETUP
 show_header("YEAR " + str(year))
 print()
-print("Your secretary presents you with your first ever city report. Would you like to read it?")
+print("Your secretary enters the office carrying your first city report.")
+print()
+print("Would you like to review it?")
 print()
 print("1. Yes")
 print("2. No")
 print()
 if input("Enter the number of your choice: ") == "1":
     print()
+    print()
     show_stats()
 else:
+    print()
     print()
     print("Just kidding! You don't have a choice. You're a mayor now, so reading reports is a part of your job description.")
     print()
@@ -174,6 +196,7 @@ while True:
     infrastructure += selected_choice["infrastructure_change"]
 
     limit_stats()
+    print()
     print()
     print("You've made your decision. Now, it's time to wait and see how the city responds.")
     print()

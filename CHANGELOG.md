@@ -2,11 +2,18 @@
 
 ## Unreleased
 
+### Added
+- Reusable UI banner and header functions
+
 ### Changed
 - Refactored main game loop to remove duplicate Year 1 logic
 - Combined Year 1 setup with the main yearly cycle
-- Added configuration section
-- Replaced hardcoded starting values with configuration constants
+- Configuration section for game constants
+- Starting city statistics now use configuration constants
+- Improved screen formatting with reusable UI components
+- Redesigned Annual Municipal Report interface
+- Updated game introduction and opening narration
+
 
 ## v0.1.0 - Initial Release (2026-07-15)
 
